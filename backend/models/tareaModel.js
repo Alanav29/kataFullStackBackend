@@ -1,11 +1,13 @@
-const mogoose = require('mogoose');
+const mongoose = require('mongoose');
 
 const tareaSchema = mongoose.Schema({
-    tarea: {
+    texto: {
         type: String,
         required: [true,'Por favor escribe una tarea']
     }
 },
 {
     timestamps: true
-})
+});
+
+module.exports = mongoose.model('Tarea', tareaSchema)
