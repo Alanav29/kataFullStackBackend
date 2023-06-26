@@ -10,16 +10,12 @@ const protect = asyncHandler(async (req, res, next) => {
 		req.headers.authorization.startsWith("Bearer")
 	) {
 		try {
-			//Obtener el token del encabezado de autorizacion
 			token = req.headers.authorization.split(" ")[1];
 
-			//Verificamos el token
 			const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-			//Obtenemos el user del token
 			req.user = await User.findById(decoded.id).select("-password");
 
-			//continuamos con la ejecucion del programa
 			next();
 		} catch (error) {
 			console.log(error);

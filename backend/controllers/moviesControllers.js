@@ -3,7 +3,7 @@ const Movie = require("../models/movieModel");
 
 const getMovies = asyncHandler(async (req, res) => {
 	const movies = await Movie.find();
-	// verificar si envia todas las peliculas
+
 	res.status(200).json(movies);
 });
 
