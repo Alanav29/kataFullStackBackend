@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema(
 			type: String,
 			required: [true, "Por favor teclea tu password"],
 		},
+		likedMovies: {
+			type: Array,
+			default: [],
+		},
 	},
 	{
 		timestamps: true,

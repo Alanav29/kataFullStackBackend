@@ -4,10 +4,13 @@ const {
 	crearUsuario,
 	loginUser,
 	misDatos,
+	updateUser,
+	updateUserLikedMovies,
 } = require("../controllers/usersControllers");
 const { protect } = require("../middleware/authMiddleware");
 
-router.post("/", crearUsuario);
+router.route("/").post(crearUsuario).put(protect, updateUserLikedMovies);
+router.route("/likedMovies").put(protect, updateUser);
 router.post("/login", loginUser);
 router.get("/me", protect, misDatos);
 

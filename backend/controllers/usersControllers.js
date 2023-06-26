@@ -56,6 +56,7 @@ const loginUser = asynchandler(async (req, res) => {
 			_id: user.id,
 			name: user.name,
 			email: user.email,
+			likedMovies: user.likedMovies,
 			token: generateToken(user._id),
 		});
 	} else {
@@ -74,8 +75,58 @@ const misDatos = asynchandler(async (req, res) => {
 	res.status(200).json(req.user);
 });
 
+const updateUser = asynchandler(async (req, res) => {
+	const { email, likedMovie } = req.body;
+
+	//buscamos el usuario
+	const user = await User.findOne({ email });
+
+	if (user && likedMovie) {
+		let userLikedMovies = user.likedMovies;
+		userLikedMovies.push(likedMovie);
+		let userUpdated = await User.findByIdAndUpdate(
+			user._id,
+			{
+				likedMovies: userLikedMovies,
+			},
+			{ new: true }
+		);
+
+		res.status(200).json(userUpdated);
+	} else {
+		res.status(404);
+		throw new Error("No se encontro el usuario");
+	}
+});
+
+const updateUserLikedMovies = asynchandler(async (req, res) => {
+	const { email, unlikedMovie } = req.body;
+
+	//buscamos el usuario
+	const user = await User.findOne({ email });
+
+	if (user && unlikedMovie) {
+		let userLikedMovies = user.likedMovies;
+		userLikedMovies.splice(unlikedMovie, 1);
+		let userUpdated = await User.findByIdAndUpdate(
+			user._id,
+			{
+				likedMovies: userLikedMovies,
+			},
+			{ new: true }
+		);
+
+		res.status(200).json(userUpdated);
+	} else {
+		res.status(404);
+		throw new Error("No se encontro el usuario");
+	}
+});
+
 module.exports = {
 	crearUsuario,
 	loginUser,
 	misDatos,
+	updateUser,
+	updateUserLikedMovies,
 };

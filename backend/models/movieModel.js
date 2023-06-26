@@ -18,6 +18,9 @@ const movieSchema = mongoose.Schema(
 			type: String,
 			required: [true, "Por favor escribe la sinopsis de la pelicula"],
 		},
+		likes: {
+			type: Number,
+		},
 	},
 	{
 		timestamps: true,
